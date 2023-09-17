@@ -11,7 +11,9 @@
   },
   "dependencies": {
     "@astrojs/tailwind": "^5.0.0",
+    "@nextui-org/react": "^2.1.13",
     "astro": "^3.0.12",
+    "framer-motion": "^10.16.4",
     "tailwindcss": "^3.0.24"
   }
 }
