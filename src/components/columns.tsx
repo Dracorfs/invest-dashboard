@@ -6,18 +6,25 @@ import type { ColumnDef } from "@tanstack/react-table"
 // You can use a Zod schema here if you want.
 export type Payment = {
   id: string
+  ticker: string
+  type: string
   amount: number
-  status: "pending" | "processing" | "success" | "failed"
-  email: string
+  initial_price: number
+  total_price: number
+  peso_value: number
+  total_pesos: number
+  dollar_value: number
+  delta_pesos: number
+  growth: number
 }
 
 export const columns: ColumnDef<Payment>[] = [
   {
-    accessorKey: "status",
+    accessorKey: "ticker",
     header: "Ticker",
   },
   {
-    accessorKey: "email",
+    accessorKey: "type",
     header: "Tipo de instrumento",
   },
   {
@@ -25,85 +32,85 @@ export const columns: ColumnDef<Payment>[] = [
     header: "Cantidad de instrumentos",
   },
   {
-    accessorKey: "amount",
+    accessorKey: "initial_price",
     header: () => <div className="text-right">Valor compra inicial</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"))
+      const amount = parseFloat(row.getValue("initial_price"))
       const formatted = new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "USD",
-      }).format(amount)
+      }).format(amount | 0)
  
       return <div className="text-right font-medium">{formatted}</div>
     },
   },
   {
-    accessorKey: "amount",
+    accessorKey: "total_price",
     header: () => <div className="text-right">Valor total compra</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"))
+      const amount = parseFloat(row.getValue("total_price"))
       const formatted = new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "USD",
-      }).format(amount)
+      }).format(amount | 0)
  
       return <div className="text-right font-medium">{formatted}</div>
     },
   },
   {
-    accessorKey: "amount",
+    accessorKey: "peso_value",
     header: () => <div className="text-right">Valor hoy Peso</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"))
+      const amount = parseFloat(row.getValue("peso_value"))
       const formatted = new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "USD",
-      }).format(amount)
+      }).format(amount | 0)
  
       return <div className="text-right font-medium">{formatted}</div>
     },
   },
   {
-    accessorKey: "amount",
+    accessorKey: "total_pesos",
     header: () => <div className="text-right">Tenencia total pesos</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"))
+      const amount = parseFloat(row.getValue("total_pesos"))
       const formatted = new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "USD",
-      }).format(amount)
+      }).format(amount | 0)
  
       return <div className="text-right font-medium">{formatted}</div>
     },
   },
   {
-    accessorKey: "amount",
+    accessorKey: "dollar_value",
     header: () => <div className="text-right">Valor hoy dolar</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"))
+      const amount = parseFloat(row.getValue("dollar_value"))
       const formatted = new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "USD",
-      }).format(amount)
+      }).format(amount | 0)
  
       return <div className="text-right font-medium">{formatted}</div>
     },
   },
   {
-    accessorKey: "amount",
+    accessorKey: "delta_pesos",
     header: () => <div className="text-right">Delta Pesos</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"))
+      const amount = parseFloat(row.getValue("delta_pesos"))
       const formatted = new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "USD",
-      }).format(amount)
+      }).format(amount | 0)
  
       return <div className="text-right font-medium">{formatted}</div>
     },
   },
   {
-    accessorKey: "amount",
+    accessorKey: "growth",
     header: "% crecimiento",
   }
 ]
