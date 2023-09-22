@@ -2,11 +2,23 @@
 import Layout from '../layouts/Layout.astro';
 import '../../app/globals.css'
 import { Button } from "../components/ui/button"
+import { DataTable } from "../components/data-table"
+import { columns } from "../components/columns"
 ---
 
 <Layout title="Investment dashboard">
 	<main>
 		<h1 class="text-white text-3xl font-bold underline">Investment dashboard</h1>
 		<Button>Hello World</Button>
+		<div class="container mx-auto py-10">
+			<DataTable columns={columns} data={[
+				{
+					id: "728ed52f",
+					amount: 100,
+					status: "pending",
+					email: "m@example.com",
+				}
+			]} />
+		</div>
 	</main>
 </Layout>
