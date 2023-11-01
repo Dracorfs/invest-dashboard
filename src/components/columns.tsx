@@ -39,7 +39,7 @@ export const columns: ColumnDef<Payment>[] = [
       const formatted = new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "USD",
-      }).format(amount | 0)
+      }).format((amount) | 0)
  
       return <div className="text-right font-medium">{formatted}</div>
     },
