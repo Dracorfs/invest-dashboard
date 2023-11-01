@@ -3,27 +3,14 @@ import Layout from '../layouts/Layout.astro';
 import '../../app/globals.css'
 import { DataTable } from "../components/data-table"
 import { columns } from "../components/columns"
+import stocks from "../data/stocks.json"
 ---
 
 <Layout title="Investment dashboard">
 	<main>
 		<h1 class="text-white text-3xl font-bold underline">Investment dashboard</h1>
 		<div class="container mx-auto py-10">
-			<DataTable columns={columns} data={[
-				{
-					id: "728ed52f",
-					ticker: "ARKK",
-					type: "ETF",
-					amount: 100,
-					initial_price: 1,
-					total_price: 1,
-					peso_value: 1,
-					total_pesos: 1,
-					dollar_value: 1,
-					delta_pesos: 1,
-					growth: 1
-				}
-			]} />
+			<DataTable columns={columns} data={stocks} />
 		</div>
 	</main>
 </Layout>

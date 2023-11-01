@@ -1,0 +1,15 @@
+[
+    {
+        "id": "728ed52f",
+        "ticker": "ARKK",
+        "type": "ETF",
+        "amount": 100,
+        "initial_price": 1,
+        "total_price": 1,
+        "peso_value": 1,
+        "total_pesos": 1,
+        "dollar_value": 1,
+        "delta_pesos": 1,
+        "growth": 1
+    }
+]
