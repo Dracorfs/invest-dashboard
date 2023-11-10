@@ -111,6 +111,11 @@ export const columns: ColumnDef<Payment>[] = [
   },
   {
     accessorKey: "growth",
-    header: "% crecimiento",
+    header: "Crecimiento",
+    cell: ({ row }) => {
+      const amount = parseFloat(row.getValue("growth"))
+ 
+      return <div className="text-right font-medium">{amount} %</div>
+    },
   }
 ]
