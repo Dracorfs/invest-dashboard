@@ -76,11 +76,13 @@ export const columns: ColumnDef<Payment>[] = [
     accessorKey: "total_pesos",
     header: () => <div className="text-right">Tenencia total pesos</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("total_pesos"))
+      const amount = parseFloat(row.getValue("amount"))
+      const price = parseFloat(row.getValue("peso_value"))
+      const total = amount * price
       const formatted = new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "USD",
-      }).format(amount | 0)
+      }).format(total | 0)
  
       return <div className="text-right font-medium">{formatted}</div>
     },
