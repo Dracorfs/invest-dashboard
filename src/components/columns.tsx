@@ -48,11 +48,13 @@ export const columns: ColumnDef<Payment>[] = [
     accessorKey: "total_price",
     header: () => <div className="text-right">Valor total compra</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("total_price"))
+      const amount = parseFloat(row.getValue("amount"))
+      const price = parseFloat(row.getValue("initial_price"))
+      const total = amount * price
       const formatted = new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "USD",
-      }).format(amount | 0)
+      }).format(total | 0)
  
       return <div className="text-right font-medium">{formatted}</div>
     },
