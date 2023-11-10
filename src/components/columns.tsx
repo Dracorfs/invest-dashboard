@@ -18,6 +18,27 @@ export type Payment = {
   growth: number
 }
 
+const FormatCurrency = (number: number) => {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  }).format(number | 0)
+}
+
+const CalculateTotalARS = ({ row }: any) => {
+  const amount = parseFloat(row.getValue("amount"))
+  const price = parseFloat(row.getValue("peso_value"))
+  const total = FormatCurrency(amount * price)
+  return total
+}
+
+const CalculateTotalUSD = ({ row }: any) => {
+  const amount = parseFloat(row.getValue("amount"))
+  const price = parseFloat(row.getValue("initial_price"))
+  const total = FormatCurrency(amount * price)
+  return total
+}
+
 export const columns: ColumnDef<Payment>[] = [
   {
     accessorKey: "ticker",
@@ -36,27 +57,14 @@ export const columns: ColumnDef<Payment>[] = [
     header: () => <div className="text-right">Valor compra inicial</div>,
     cell: ({ row }) => {
       const amount = parseFloat(row.getValue("initial_price"))
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format((amount) | 0)
- 
-      return <div className="text-right font-medium">{formatted}</div>
+      return <div className="text-right font-medium">{FormatCurrency(amount)}</div>
     },
   },
   {
     accessorKey: "total_price",
     header: () => <div className="text-right">Valor total compra</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"))
-      const price = parseFloat(row.getValue("initial_price"))
-      const total = amount * price
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(total | 0)
- 
-      return <div className="text-right font-medium">{formatted}</div>
+      return <div className="text-right font-medium">{CalculateTotalUSD({row})}</div>
     },
   },
   {
@@ -76,15 +84,7 @@ export const columns: ColumnDef<Payment>[] = [
     accessorKey: "total_pesos",
     header: () => <div className="text-right">Tenencia total pesos</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"))
-      const price = parseFloat(row.getValue("peso_value"))
-      const total = amount * price
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(total | 0)
- 
-      return <div className="text-right font-medium">{formatted}</div>
+      return <div className="text-right font-medium">{CalculateTotalARS({row})}</div>
     },
   },
   {
@@ -104,11 +104,13 @@ export const columns: ColumnDef<Payment>[] = [
     accessorKey: "delta_pesos",
     header: () => <div className="text-right">Delta Pesos</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("delta_pesos"))
+      const pesos = parseFloat(CalculateTotalARS({row}))
+      const usd = parseFloat(row.getValue("total_price"))
+      const total = pesos - usd
       const formatted = new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "USD",
-      }).format(amount | 0)
+      }).format(total | 0)
  
       return <div className="text-right font-medium">{formatted}</div>
     },
