@@ -25,16 +25,9 @@ const FormatCurrency = (number: number) => {
   }).format(number | 0)
 }
 
-const CalculateTotalARS = ({ row }: any) => {
+const CalculateTotal = ({ row }: any, currency: string) => {
   const amount = parseFloat(row.getValue("amount"))
-  const price = parseFloat(row.getValue("peso_value"))
-  const total = amount * price
-  return total
-}
-
-const CalculateTotalUSD = ({ row }: any) => {
-  const amount = parseFloat(row.getValue("amount"))
-  const price = parseFloat(row.getValue("initial_price"))
+  const price = parseFloat(row.getValue(currency))
   const total = amount * price
   return total
 }
@@ -53,10 +46,10 @@ export const columns: ColumnDef<Payment>[] = [
     header: "Cantidad de instrumentos",
   },
   {
-    accessorKey: "initial_price",
+    accessorKey: "USD",
     header: () => <div className="text-right">Valor compra inicial</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("initial_price"))
+      const amount = parseFloat(row.getValue("USD"))
       return <div className="text-right font-medium">{FormatCurrency(amount)}</div>
     },
   },
@@ -64,16 +57,16 @@ export const columns: ColumnDef<Payment>[] = [
     accessorKey: "total_price",
     header: () => <div className="text-right">Valor total compra</div>,
     cell: ({ row }) => {
-      const total = CalculateTotalUSD({row})
+      const total = CalculateTotal({row}, 'USD')
       const formatted = FormatCurrency(total)
       return <div className="text-right font-medium">{formatted}</div>
     },
   },
   {
-    accessorKey: "peso_value",
+    accessorKey: "ARS",
     header: () => <div className="text-right">Valor hoy Peso</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("peso_value"))
+      const amount = parseFloat(row.getValue("ARS"))
       const formatted = FormatCurrency(amount)
  
       return <div className="text-right font-medium">{formatted}</div>
@@ -83,7 +76,7 @@ export const columns: ColumnDef<Payment>[] = [
     accessorKey: "total_pesos",
     header: () => <div className="text-right">Tenencia total pesos</div>,
     cell: ({ row }) => {
-      const total = CalculateTotalARS({row})
+      const total = CalculateTotal({row}, 'ARS')
       const formatted = FormatCurrency(total)
       return <div className="text-right font-medium">{formatted}</div>
     },
@@ -102,8 +95,8 @@ export const columns: ColumnDef<Payment>[] = [
     accessorKey: "delta_pesos",
     header: () => <div className="text-right">Delta Pesos</div>,
     cell: ({ row }) => {
-      const pesos = CalculateTotalARS({row})
-      const usd = CalculateTotalUSD({row})
+      const pesos = CalculateTotal({row}, 'ARS')
+      const usd = CalculateTotal({row}, 'USD')
       const total = pesos - usd
       const formatted = FormatCurrency(total)
  
