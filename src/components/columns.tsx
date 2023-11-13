@@ -102,8 +102,6 @@ export const columns: ColumnDef<Investment>[] = [
     accessorKey: "delta_ars",
     header: () => <div className="text-right">Delta ARS</div>,
     cell: ({ row }) => {
-      // Delta Pesos = Total ARS - Total purchase value
-
       const unit_price: UnitPrice = row.getValue('unit_price')
       const current = CalculateTotal({row}, unit_price.current)
       const initial = CalculateTotal({row}, unit_price.initial)
@@ -117,8 +115,6 @@ export const columns: ColumnDef<Investment>[] = [
     accessorKey: "growth",
     header: () => <div className="text-right">Growth</div>,
     cell: ({ row }) => {
-      // % crecimiento = Tenencia total pesos / Valor total compra - 1
-
       const unit_price: UnitPrice = row.getValue('unit_price')
       const initial = CalculateTotal({row}, unit_price.initial)
       const current = CalculateTotal({row}, unit_price.current)
