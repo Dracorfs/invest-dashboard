@@ -4,22 +4,19 @@ import type { ColumnDef } from "@tanstack/react-table"
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
-export type Payment = {
-  id: string
-  ticker: string
-  type: string
-  amount: number
-  initial_price: number
-  total_price: number
-  peso_value: number
-  total_pesos: number
-  dollar_value: number
-  delta_pesos: number
-  growth: number
-}
-type unit_price = {
+type UnitPrice = {
   initial: number,
   current: number
+}
+export type Payment = {
+  id: string,
+  ticker: string,
+  type: string,
+  quantity: number,
+  unit_price: UnitPrice
+  exchange_rate: {
+      usd: number
+  }
 }
 
 const FormatCurrency = (number: number) => {
@@ -52,7 +49,7 @@ export const columns: ColumnDef<Payment>[] = [
     accessorKey: "unit_price",
     header: () => <div className="text-right">Initial purchase value</div>,
     cell: ({ row }) => {
-      const unit_price: unit_price = row.getValue('unit_price')
+      const unit_price: UnitPrice = row.getValue('unit_price')
       return <div className="text-right font-medium">{FormatCurrency(unit_price.initial)}</div>
     },
   },
@@ -60,7 +57,7 @@ export const columns: ColumnDef<Payment>[] = [
     accessorKey: "total_price",
     header: () => <div className="text-right">Total purchase value</div>,
     cell: ({ row }) => {
-      const unit_price: unit_price = row.getValue('unit_price')
+      const unit_price: UnitPrice = row.getValue('unit_price')
       const total = CalculateTotal({row}, unit_price.initial)
       const formatted = FormatCurrency(total)
       return <div className="text-right font-medium">{formatted}</div>
@@ -70,7 +67,7 @@ export const columns: ColumnDef<Payment>[] = [
     accessorKey: "current_value_ars",
     header: () => <div className="text-right">Current value ARS</div>,
     cell: ({ row }) => {
-      const unit_price: unit_price = row.getValue('unit_price')
+      const unit_price: UnitPrice = row.getValue('unit_price')
       const formatted = FormatCurrency(unit_price.current)
       
       return <div className="text-right font-medium">{formatted}</div>
@@ -80,7 +77,7 @@ export const columns: ColumnDef<Payment>[] = [
     accessorKey: "total_pesos",
     header: () => <div className="text-right">Total ARS</div>,
     cell: ({ row }) => {
-      const unit_price: unit_price = row.getValue('unit_price')
+      const unit_price: UnitPrice = row.getValue('unit_price')
       const total = CalculateTotal({row}, unit_price.current)
       const formatted = FormatCurrency(total)
       return <div className="text-right font-medium">{formatted}</div>
@@ -90,7 +87,7 @@ export const columns: ColumnDef<Payment>[] = [
     accessorKey: "exchange_rate",
     header: () => <div className="text-right">Current value USD</div>,
     cell: ({ row }) => {
-      const unit_price: unit_price = row.getValue('unit_price')
+      const unit_price: UnitPrice = row.getValue('unit_price')
       const ARS = CalculateTotal({row}, unit_price.current)
 
       const exchange_rate: { usd: number } = row.getValue("exchange_rate")
@@ -107,7 +104,7 @@ export const columns: ColumnDef<Payment>[] = [
     cell: ({ row }) => {
       // Delta Pesos = Total ARS - Total purchase value
 
-      const unit_price: unit_price = row.getValue('unit_price')
+      const unit_price: UnitPrice = row.getValue('unit_price')
       const current = CalculateTotal({row}, unit_price.current)
       const initial = CalculateTotal({row}, unit_price.initial)
       const total = current - initial
@@ -122,7 +119,7 @@ export const columns: ColumnDef<Payment>[] = [
     cell: ({ row }) => {
       // % crecimiento = Tenencia total pesos / Valor total compra - 1
 
-      const unit_price: unit_price = row.getValue('unit_price')
+      const unit_price: UnitPrice = row.getValue('unit_price')
       const initial = CalculateTotal({row}, unit_price.initial)
       const current = CalculateTotal({row}, unit_price.current)
       const subtotal = (current - initial) / initial
