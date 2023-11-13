@@ -9,6 +9,13 @@ import stocks from "../data/stocks.json"
 <Layout title="Investment dashboard">
 	<main>
 		<h1 class="text-white text-3xl font-bold underline">Investment dashboard</h1>
+		<div>
+			<iframe
+				style="width:320px;height:260px;border-radius:10px;box-shadow:2px 4px 4px rgb(0 0 0 / 25%);display:flex;justify-content:center;border:1px solid #bcbcbc"
+				src="https://dolarhoy.com/i/cotizaciones/dolar-blue"
+				frameborder="0">
+			</iframe>
+		</div>
 		<div class="container mx-auto py-10">
 			<DataTable columns={columns} data={stocks} />
 		</div>
