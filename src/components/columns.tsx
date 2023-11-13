@@ -8,7 +8,7 @@ type UnitPrice = {
   initial: number,
   current: number
 }
-export type Payment = {
+export type Investment = {
   id: string,
   ticker: string,
   type: string,
@@ -32,7 +32,7 @@ const CalculateTotal = ({ row }: any, price: number) => {
   return total
 }
 
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<Investment>[] = [
   {
     accessorKey: "ticker",
     header: "Ticker",
