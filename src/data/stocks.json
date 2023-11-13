@@ -3,11 +3,13 @@
         "id": "728ed52f",
         "ticker": "ARKK",
         "type": "ETF",
-        "amount": 20,
-        "USD": 3085.33,
-        "ARS": 2909.50,
-        "dollar_value": 3.25,
-        "delta_pesos": -3516.67,
-        "growth": 13.91
+        "quantity": 20,
+        "unit_price": {
+            "initial": 3085.33,
+            "current": 2909.50
+        },
+        "exchange_rate": {
+            "usd": 950
+        }
     }
 ]
